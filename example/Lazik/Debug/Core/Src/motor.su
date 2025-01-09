@@ -1,3 +1,0 @@
-../Core/Src/motor.c:19:6:motor_str_init	16	static
-../Core/Src/motor.c:28:6:motor_calculate_speed	16	static
-../Core/Src/motor.c:35:6:motor_update_count	16	static
