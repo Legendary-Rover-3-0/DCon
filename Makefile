@@ -70,7 +70,9 @@ Core/Src/system_stm32f4xx.c \
 Core/Src/sysmem.c \
 Core/Src/syscalls.c \
 Core/Src/dma.c \
-Core/Src/DLTuc.c
+Core/Src/DLTuc.c \
+DCon/Drivers/Src/Bldc_Driver.c \
+DCon/Application/Src/DCon_App.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -135,7 +137,9 @@ C_INCLUDES =  \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
--IDrivers/CMSIS/Include
+-IDrivers/CMSIS/Include \
+-IDCon/Drivers/Inc \
+-IDCon/Application/Inc
 
 
 # compile gcc flags
