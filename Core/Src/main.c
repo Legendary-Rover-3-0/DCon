@@ -122,6 +122,7 @@ int main(void)
   {
     DLT_DEBUG("Test log!");
     HAL_Delay(1000u);
+    uint32_t tickTEst = HAL_GetTick();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
