@@ -20,7 +20,7 @@
                 "monitor halt"
             ],
             "preLaunchTask": "Make",
-            "showDevDebugOutput": true
+            "showDevDebugOutput": true,
         }
     ]
 }
