@@ -1,0 +1,29 @@
+{
+    /* Konfiguracja do wspierania podświetlenia funkcji dla STM32 i języka C w VSCode */
+    "configurations": [
+        {
+            "name": "Drive_Control",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "USE_HAL_DRIVER",
+                "DSTM32F446xx"
+            ],
+            /* Podmienić na swoją ścieżkę do kompilatora! */
+            "compilerPath": "D:\\ARM_toolchain\\arm-none-eabi\\arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi\\bin\\arm-none-eabi-gcc.exe", 
+            "compilerArgs": [
+                "-mcpu=cortex-m4",
+                "-mthumb"
+            ],
+            "cStandard": "c17",
+            "intelliSenseMode": "gcc-arm",
+            "cppStandard": "c++17",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}

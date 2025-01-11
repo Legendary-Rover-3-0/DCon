@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "cwd": "${workspaceFolder}",
+            "executable": "./build/Drive_Control.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": null,
+            "servertype": "openocd",
+            "device": "STM32F446RETx",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "interface": "swd",
+            "postLaunchCommands": [
+                "monitor reset halt",
+                "monitor halt"
+            ],
+            "preLaunchTask": "Make",
+            "showDevDebugOutput": true
+        }
+    ]
+}

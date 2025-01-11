@@ -1,0 +1,55 @@
+{
+    /* Skrypt do budowaniam, usuwania i wgrywania zbudowanego SW na mikrokontroler */
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Make",
+            "type": "shell",
+            "command": "make",
+            "args": ["-j11"],
+            "options": {
+                /* Podmienić na swoją ścieżkę gdzie znajuduje się projekt! */
+                "cwd": "D:/STM32_Project/Drive_Control",
+                "shell": {
+                    /* Podmienić na swoją ścieżkę gdzie znajuduje się plik .exe konsoli bash! */
+                    "executable": "C:/Program Files/Git/bin/bash.exe",
+                    "args": ["-c"]
+                }
+            },
+            "problemMatcher": [],
+            "detail": "Runs make -j11 in the specified directory using Bash."
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "make",
+            "args": ["clean"],
+            "options": {
+                /* Podmienić na swoją ścieżkę gdzie znajuduje się projekt! */
+                "cwd": "D:/STM32_Project/Drive_Control",
+                "shell": {
+                    /* Podmienić na swoją ścieżkę gdzie znajuduje się plik .exe konsoli bash! */
+                    "executable": "C:/Program Files/Git/bin/bash.exe",
+                    "args": ["-c"]
+                }
+            },
+            "problemMatcher": [],
+            "detail": "Runs make -j11 in the specified directory using Bash."
+        },
+        {
+            "label": "Flash",
+            "type": "shell",
+            "command": "openocd",
+            "args": [
+                "-f", "interface/stlink.cfg",
+                "-f", "target/stm32l4x.cfg",
+                "-c", "program ./build/Drive_Control.elf verify reset exit"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "detail": "Task for flashing STM32 microcontroller using OpenOCD."
+        }
+    ]
+}

@@ -4,3 +4,52 @@
 3. Integracja biblioteki DLT- logowanie błędów: https://www.youtube.com/watch?v=htQmj42eDHw
 4. Implementacja SW.
 5. Odpalenie na HW.
+
+INSTRUKCJA:
+Należy pobrać toolchain z filmiku z punktu 2. Aby otworzyć menager dodatków Ctrl+Shift+X. Lista wymaganych dodatków w VSCode:
+1. Arm Assemly.
+2. C/C++.
+3. C/C++ Extension Pack.
+4. C/C++ Themes.
+5. CMake.
+6. CMake Tools.
+7. Cortex-Debug.
+8. Embedded Tools.
+9. Makefile Tools.
+10. Peripherial Viewer.
+11. vscode-pdf.
+
+Przed dodaniem skrótów klawiszowych należy skonfigurować pliki w katalogu .vscode. Należy w odpowiednich miejscach
+zmienić ścieżki zależnie od indywidualnej preferencji zapisu wymaganego toolchaina na swoim komputerze. Linie wymagające zmiany są odpowiednio oznaczone.
+
+Dodawanie skrótów klawiszowych w VSCode. Aby dodać skróty klawiszowe w Visual Studio Code, wykonaj następujące kroki:
+1. Naciśnij kombinację klawiszy Ctrl+K Ctrl+S.
+2. W prawym górnym rogu okna wybierz opcję Open Keyboard Shortcuts (JSON) - ikonka folderu ze strzałką.
+3. Wklej poniższą konfigurację:
+
+```json
+[
+    {
+        "key": "ctrl+shift+f6",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Clean"
+    },
+    {
+        "key": "ctrl+shift+f7",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Make"
+    },
+    {
+        "key": "ctrl+shift+f8",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Flash"
+    },
+]
+
+Funkcje skrótów klawiszowych
+Po dodaniu tej konfiguracji możesz wykonywać następujące czynności za pomocą skrótów klawiszowych:
+1. Ctrl+Shift+F6 – Usuwanie katalogu build.
+2. Ctrl+Shift+F7 – Budowanie projektu.
+3. Ctrl+Shift+F8 – Wgrywanie projektu na płytkę.
+
+Po wykonaniu zweryfikuj działanie ustawień np. zbuduj a później usuń folder build za pomocą skrótów.
