@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "can.h"
+#include "dma.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -27,7 +28,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#ifdef DLT_ENABLE
+#include "DLTuc.h"
+#define DLT_DEBUG(...) LOGL(DL_INFO, __VA_ARGS__)
+#else
+#define DLT_DEBUG(...)
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,6 +65,11 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart);
+void DLTuc_SerialTxDataFunction(uint8_t* logData, uint8_t Size);
+void DLTuc_SerialRxDataFunction(uint8_t* logData, uint16_t Size);
+uint32_t DLTuc_TimeStamp(void);
 
 /* USER CODE END 0 */
 
@@ -91,6 +102,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_CAN1_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
@@ -99,14 +111,17 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
-
+  DLTuc_RegisterTransmitSerialDataFunction(DLTuc_SerialTxDataFunction);
+  DLTuc_RegisterReceiveSerialDataFunction(DLTuc_SerialRxDataFunction);
+  DLTuc_RegisterGetTimeStampMsCallback(DLTuc_TimeStamp);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    
+    DLT_DEBUG("Test log!");
+    HAL_Delay(1000u);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -162,6 +177,30 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+  DLTuc_RawDataReceiveDone(Size);
+}
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+  DLTuc_MessageTransmitDone();
+}
+
+void DLTuc_SerialTxDataFunction(uint8_t* logData, uint8_t Size)
+{
+  HAL_UART_Transmit_DMA(&huart1, logData, Size);
+}
+
+void DLTuc_SerialRxDataFunction(uint8_t* logData, uint16_t Size)
+{
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart1, logData, Size);
+}
+
+uint32_t DLTuc_TimeStamp(void)
+{
+  return HAL_GetTick();
+}
 
 /* USER CODE END 4 */
 

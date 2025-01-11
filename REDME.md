@@ -7,6 +7,7 @@
 * Integracja biblioteki DLT- logowanie błędów: https://www.youtube.com/watch?v=htQmj42eDHw (W trakcie).
 * Implementacja SW.
 * Odpalenie na HW.
+* Dodanie instrukcji oraz instalacji programu DLT Viewer. Biblioteka `DLT (Diagnostic Log Trace)` służy do zbierania logów w celu analizy działania programu w bardziej praktyczny sposób jak samo printowanie na konsolę UART. DLT Viewer jest programem do zbierania i analizy uzyskanch logów.
 
 ## INSTRUKCJA DLA VSCODE:
 Należy pobrać wymagany toolchain z punktu 2. Aby otworzyć menager dodatków użyj `Ctrl+Shift+X`. Lista wymaganych dodatków w VSCode:
@@ -49,7 +50,7 @@ Dodawanie skrótów klawiszowych w VSCode. Aby dodać skróty klawiszowe w Visua
 ```
 # Funkcje skrótów klawiszowych
 Po dodaniu tej konfiguracji możesz wykonywać następujące czynności za pomocą skrótów klawiszowych:
-1. 'Ctrl+Shift+F6' – Usuwanie katalogu 'build'.
+1. 'Ctrl+Shift+F6' – Usuwanie katalogu `build`.
 2. 'Ctrl+Shift+F7' – Budowanie projektu.
 3. 'Ctrl+Shift+F8' – Wgrywanie projektu na płytkę.
 Po wykonaniu zweryfikuj działanie ustawień np. zbuduj a później usuń folder build za pomocą skrótów.
@@ -60,4 +61,12 @@ należy zablokować dla inncyh użytkowników.
 Otwórz terminal i wklej poniższą komendę (`Ctrl+Shift+'` lub `Terminal->new Terminal`): 
 ```
 git update-index --assume-unchanged .vscode/*
+```
+
+# Logi DLT
+Przykład użycia w kodzie:
+```
+DLT_DEBUG("Lps25hb initialized error!");
+DLT_DEBUG("Press:%d hPa, Temp:%d °C", Pressure, Temperature);
+DLT_DEBUG("Status %d", Status);
 ```
