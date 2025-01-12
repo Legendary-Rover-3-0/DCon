@@ -34,6 +34,7 @@
 #else
 #define DLT_DEBUG(...)
 #endif
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -120,9 +121,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    DLT_DEBUG("Test log!");
-    HAL_Delay(1000u);
-    uint32_t tickTEst = HAL_GetTick();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
