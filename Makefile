@@ -72,7 +72,8 @@ Core/Src/syscalls.c \
 Core/Src/dma.c \
 Core/Src/DLTuc.c \
 DCon/Drivers/Src/Bldc_Driver.c \
-DCon/Application/Src/DCon_App.c
+DCon/Drivers/Src/StepperMotor_Driver.c \
+DCon/Application/Src/DCon_App.c \
 
 # ASM sources
 ASM_SOURCES =  \
