@@ -16,7 +16,6 @@
 
 /**
   * @brief Funkcja włączająca konwerter napięć logicznych.
-  * 
   */
 static void signalConverterOn(void)
 {
