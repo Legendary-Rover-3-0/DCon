@@ -11,22 +11,27 @@
 
 ## Instrukcja korzystania z Gita z podziałem na gałęzie master i develop
 
-1. Pobranie repozytorium
+# 1. Pobranie repozytorium
+Utwórz katalog w dowolnym miejscu z dowolną nazwą. W moim przypadku to Drive_Control na party d.
 
-Sklonuj repozytorium: Otwórz terminal lub linię poleceń i wykonaj poniższe polecenie, aby pobrać repozytorium:
+Otwórz terminal (np.Git Bash) lub linię poleceń i wykonaj poniższe polecenie- ścieżka zależy od tego gdzie zrobiłeś swój folder na projekt
+```
+cd /d/STM32_Project/Drive_Control/
+```
+Sklonuj repozytorium za pomocą komendy:
 ```
 git clone https://github.com/Legendary-Rover-3-0/DCon.git
 ```
 Przejdź do katalogu z repozytorium. Po sklonowaniu repozytorium wejdź do odpowiedniego katalogu:
 ```
-cd twoj-folder
+cd DCon
 ```
 Sprawdź obecne gałęzie. Aby zobaczyć listę wszystkich gałęzi w repozytorium, użyj:
 ```
 git branch -a
 ```
 
-2. Praca na gałęzi develop
+# 2. Praca na gałęzi develop
 
 Przełącz się na gałęź develop:
 ```
@@ -51,7 +56,7 @@ Wypchnij zmiany na zdalne repozytorium:
 git push origin develop
 ```
 
-3. Rozwiązywanie konfliktów
+# 3. Rozwiązywanie konfliktów
 
 Podczas wypychania może wystąpić konflikt. W takim przypadku pobierz najnowsze zmiany z gałęzi develop:
 ```
@@ -67,7 +72,7 @@ Spróbuj ponownie wypchnąć zmiany:
 git push origin develop
 ```
 
-4. Ważne uwagi
+# 4. Ważne uwagi
 
 Gałęź master jest przeznaczona do stabilnych wersji projektu. Nie pracuj bezpośrednio na tej gałęzi.
 Pamiętaj o regularnym pobieraniu najnowszych zmian z gałęzi develop przed rozpoczęciem pracy:
