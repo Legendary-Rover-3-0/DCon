@@ -70,8 +70,8 @@ Core/Src/system_stm32f4xx.c \
 Core/Src/sysmem.c \
 Core/Src/syscalls.c \
 Core/Src/dma.c \
-Core/Src/DLTuc.c \
 DCon/Drivers/Src/Bldc_Driver.c \
+DCon/Drivers/Src/DLTuc.c \
 DCon/Drivers/Src/StepperMotor_Driver.c \
 DCon/Application/Src/DCon_App.c \
 
