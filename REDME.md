@@ -1,6 +1,6 @@
-### Drive Control
+## Drive Control
 
-## To do:
+# To do:
 * Określić architekturę SW - podział na pliki i foldery.
 * Stworzenie instrukcji instalacji narzędzi wymaganych do odpalenia kompilacji i wgrania kodu na płytkę. Instrukcja na podstawie: https://www.youtube.com/watch?v=JcfHbPxRYw8
 (zostało dodać opis instalacji krok po kroku oraz wymagane linki w taki sposób jak w `INSTRUKCJA DLA VSCODE`).
@@ -9,7 +9,7 @@
 * Odpalenie na HW.
 * Dodanie instrukcji oraz instalacji programu DLT Viewer. Biblioteka `DLT (Diagnostic Log Trace)` służy do zbierania logów w celu analizy działania programu w bardziej praktyczny sposób jak samo printowanie na konsolę UART. DLT Viewer jest programem do zbierania i analizy uzyskanch logów.
 
-## Instrukcja korzystania z Gita z podziałem na gałęzie master i develop
+# Instrukcja korzystania z Gita z podziałem na gałęzie master i develop
 
 # 1. Pobranie repozytorium
 Utwórz katalog w dowolnym miejscu z dowolną nazwą. W moim przypadku to Drive_Control na party d.

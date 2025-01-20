@@ -29,12 +29,11 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #ifdef DLT_ENABLE
-#include "DLTuc.h"
-#define DLT_DEBUG(...) LOGL(DL_INFO, __VA_ARGS__)
+    #include "DLTuc.h"
+    #define DLT_DEBUG(...) LOGL(DL_INFO, __VA_ARGS__)
 #else
-#define DLT_DEBUG(...)
+    #define DLT_DEBUG(...)
 #endif
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

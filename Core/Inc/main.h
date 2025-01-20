@@ -97,6 +97,8 @@ void Error_Handler(void);
 #define INCREMENTAL_ENCODER__CH_A_PWM_GPIO_Port GPIOB
 #define INCREMENTAL_ENCODER__CH_B_PWM_Pin GPIO_PIN_5
 #define INCREMENTAL_ENCODER__CH_B_PWM_GPIO_Port GPIOB
+#define CAN_RS_Pin GPIO_PIN_7
+#define CAN_RS_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
