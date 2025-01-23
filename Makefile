@@ -170,8 +170,26 @@ LIBS = -lc -lm -lnosys
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
+#######################################
+# show memory usage
+#######################################
+FLASH_SIZE := 524288
+RAM_SIZE  := 131072
+
+show_memory: $(BUILD_DIR)/$(TARGET).elf
+	@echo "Memory usage (percentage):"
+	@$(SZ) $(BUILD_DIR)/$(TARGET).elf | tail -n +2 | awk '{ \
+		text_perc = ($$1 / $(FLASH_SIZE)) * 100; \
+		data_perc = ($$2 / $(RAM_SIZE)) * 100; \
+		bss_perc = ($$3 / $(RAM_SIZE)) * 100; \
+		printf "Flash (.text): %5.1f%%\n", text_perc; \
+		printf "RAM   (.data): %5.1f%%\n", data_perc; \
+		printf "RAM   (.bss):  %5.1f%%\n", bss_perc; \
+	}'
+
+
 # default action: build all
-all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
+all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin show_memory
 
 
 #######################################
