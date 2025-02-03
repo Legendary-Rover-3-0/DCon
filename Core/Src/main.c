@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "can.h"
 #include "dma.h"
 #include "spi.h"
@@ -110,6 +111,7 @@ int main(void)
   MX_TIM12_Init();
   MX_USART1_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
   DLTuc_RegisterTransmitSerialDataFunction(DLTuc_SerialTxDataFunction);
   DLTuc_RegisterReceiveSerialDataFunction(DLTuc_SerialRxDataFunction);
