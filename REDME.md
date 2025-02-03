@@ -142,3 +142,64 @@ DLT_DEBUG("Lps25hb initialized error!");
 DLT_DEBUG("Press:%d hPa, Temp:%d °C", Pressure, Temperature);
 DLT_DEBUG("Status %d", Status);
 ```
+
+# Instrukcja narzędzi wymaganych do uruchomienia kompilacji
+
+### 1. Pobierz narzędzia potrzebne do uruchomienia projektu
+Pobierz i zainstaluj następujące narzędzia:
+*	GCC
+https://gcc.gnu.org/.
+*	Make
+https://gnuwin32.sourceforge.net/packages/make.htm.
+*	Ruby
+https://www.ruby-lang.org/en/downloads/.
+*	Python
+https://www.python.org/downloads/.
+*	ARM None EABI GCC
+https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads.
+*	OpenOCD
+https://openocd.org/pages/getting-openocd.html.
+
+### 2. Skonfiguruj zmienne środowiskowe
+Dodaj ścieżki do folderów bin zainstalowanych narzędzi do zmiennej środowiskowej Path.
+1.	Otwórz okno zmiennych środowiskowych:
+*	Przejdź do Ten komputer → Właściwości → Zaawansowane ustawienia systemu → Zmienne środowiskowe.
+*	W sekcji Zmienne użytkownika znajdź i edytuj zmienną Path.
+2.	Dodaj ścieżki do folderów bin, np.:
+```
+C:\MinGW\bin
+C:\Program Files\GNU Tools ARM Embedded\bin
+```
+Sprawdź poprawność konfiguracji:
+*   Otwórz terminal (start → wpisz cmd lub otwórz terminal w VSC).
+*	Wpisz kolejno:
+```
+gcc --version
+make --version
+ruby --version
+python --version
+arm-none-eabi-gcc --version 
+OpenOCD --version
+```
+### 3. Skonfiguruj pliki projektu
+Skopiuj ścieżkę do arm-none-eabi-gcc.exe
+Przykład ścieżki:
+D:\\programy\\arm\\13.3 rel1\\bin\\arm-none-eabi-gcc.exe,
+
+Edytuj plik c_cpp_properties.json
+*	Otwórz plik .vscode/c_cpp_properties.json.
+*	W polu "compilerPath" wklej wcześniej skopiowaną ścieżkę, np.:
+Edytuj plik tasks.json
+*	Znajdź plik .vscode/tasks.json.
+*	Zaktualizuj ścieżki do projektu oraz do git bash we wskazanych miejscach.
+### 4. Uwagi
+*	Nie używaj polskich znaków w nazwach plików ani folderów.
+Może to powodować problemy podczas kompilacji.
+### 5. Sprawdzenie konfiguracji
+Otwórz terminal w Visual Studio Code.
+Wybierz Git Bash jako interpreter terminala.
+Wpisz komendę:
+```
+build
+```
+Jeśli wszystko zostało skonfigurowane poprawnie, projekt powinien się skompilować.
