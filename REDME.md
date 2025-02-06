@@ -1,13 +1,68 @@
 ## Drive Control
 
-# To do:
-* Określić architekturę SW - podział na pliki i foldery.
-* Stworzenie instrukcji instalacji narzędzi wymaganych do odpalenia kompilacji i wgrania kodu na płytkę. Instrukcja na podstawie: https://www.youtube.com/watch?v=JcfHbPxRYw8
-(zostało dodać opis instalacji krok po kroku oraz wymagane linki w taki sposób jak w `INSTRUKCJA DLA VSCODE`).
-* Integracja biblioteki DLT- logowanie błędów: https://www.youtube.com/watch?v=htQmj42eDHw (W trakcie).
-* Implementacja SW.
-* Odpalenie na HW.
-* Dodanie instrukcji oraz instalacji programu DLT Viewer. Biblioteka `DLT (Diagnostic Log Trace)` służy do zbierania logów w celu analizy działania programu w bardziej praktyczny sposób jak samo printowanie na konsolę UART. DLT Viewer jest programem do zbierania i analizy uzyskanch logów.
+# Instrukcja narzędzi wymaganych do uruchomienia kompilacji
+
+### 1. Pobierz narzędzia potrzebne do uruchomienia projektu
+Instrukcja na podstawie: https://www.youtube.com/watch?v=JcfHbPxRYw8
+
+Pobierz i zainstaluj następujące narzędzia:
+*	GCC
+https://gcc.gnu.org/.
+*	Make
+https://gnuwin32.sourceforge.net/packages/make.htm.
+*	Ruby
+https://www.ruby-lang.org/en/downloads/.
+*	Python
+https://www.python.org/downloads/.
+*	ARM None EABI GCC
+https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads.
+*	OpenOCD
+https://openocd.org/pages/getting-openocd.html.
+
+### 2. Skonfiguruj zmienne środowiskowe
+Dodaj ścieżki do folderów bin zainstalowanych narzędzi do zmiennej środowiskowej Path.
+1.	Otwórz okno zmiennych środowiskowych:
+*	Przejdź do Ten komputer → Właściwości → Zaawansowane ustawienia systemu → Zmienne środowiskowe.
+*	W sekcji Zmienne użytkownika znajdź i edytuj zmienną Path.
+2.	Dodaj ścieżki do folderów bin, np.:
+```
+C:\MinGW\bin
+C:\Program Files\GNU Tools ARM Embedded\bin
+```
+Sprawdź poprawność konfiguracji:
+*   Otwórz terminal (start → wpisz cmd lub otwórz terminal w VSC).
+*	Wpisz kolejno:
+```
+gcc --version
+make --version
+ruby --version
+python --version
+arm-none-eabi-gcc --version 
+OpenOCD --version
+```
+### 3. Skonfiguruj pliki projektu
+Skopiuj ścieżkę do arm-none-eabi-gcc.exe
+Przykład ścieżki:
+D:\\programy\\arm\\13.3 rel1\\bin\\arm-none-eabi-gcc.exe,
+
+Edytuj plik c_cpp_properties.json
+*	Otwórz plik .vscode/c_cpp_properties.json.
+*	W polu "compilerPath" wklej wcześniej skopiowaną ścieżkę, np.:
+Edytuj plik tasks.json
+*	Znajdź plik .vscode/tasks.json.
+*	Zaktualizuj ścieżki do projektu oraz do git bash we wskazanych miejscach.
+### 4. Uwagi
+*	Nie używaj polskich znaków w nazwach plików ani folderów.
+Może to powodować problemy podczas kompilacji.
+### 5. Sprawdzenie konfiguracji
+Otwórz terminal w Visual Studio Code.
+Wybierz Git Bash jako interpreter terminala.
+Wpisz komendę:
+```
+build
+```
+Jeśli wszystko zostało skonfigurowane poprawnie, projekt powinien się skompilować.
+
 
 # Instrukcja korzystania z Gita z podziałem na gałęzie master i develop
 
@@ -136,70 +191,10 @@ git update-index --assume-unchanged .vscode/*
 ```
 
 # Logi DLT
+Instrukcja: https://www.youtube.com/watch?v=htQmj42eDHw
 Przykład użycia w kodzie:
 ```
 DLT_DEBUG("Lps25hb initialized error!");
 DLT_DEBUG("Press:%d hPa, Temp:%d °C", Pressure, Temperature);
 DLT_DEBUG("Status %d", Status);
 ```
-
-# Instrukcja narzędzi wymaganych do uruchomienia kompilacji
-
-### 1. Pobierz narzędzia potrzebne do uruchomienia projektu
-Pobierz i zainstaluj następujące narzędzia:
-*	GCC
-https://gcc.gnu.org/.
-*	Make
-https://gnuwin32.sourceforge.net/packages/make.htm.
-*	Ruby
-https://www.ruby-lang.org/en/downloads/.
-*	Python
-https://www.python.org/downloads/.
-*	ARM None EABI GCC
-https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads.
-*	OpenOCD
-https://openocd.org/pages/getting-openocd.html.
-
-### 2. Skonfiguruj zmienne środowiskowe
-Dodaj ścieżki do folderów bin zainstalowanych narzędzi do zmiennej środowiskowej Path.
-1.	Otwórz okno zmiennych środowiskowych:
-*	Przejdź do Ten komputer → Właściwości → Zaawansowane ustawienia systemu → Zmienne środowiskowe.
-*	W sekcji Zmienne użytkownika znajdź i edytuj zmienną Path.
-2.	Dodaj ścieżki do folderów bin, np.:
-```
-C:\MinGW\bin
-C:\Program Files\GNU Tools ARM Embedded\bin
-```
-Sprawdź poprawność konfiguracji:
-*   Otwórz terminal (start → wpisz cmd lub otwórz terminal w VSC).
-*	Wpisz kolejno:
-```
-gcc --version
-make --version
-ruby --version
-python --version
-arm-none-eabi-gcc --version 
-OpenOCD --version
-```
-### 3. Skonfiguruj pliki projektu
-Skopiuj ścieżkę do arm-none-eabi-gcc.exe
-Przykład ścieżki:
-D:\\programy\\arm\\13.3 rel1\\bin\\arm-none-eabi-gcc.exe,
-
-Edytuj plik c_cpp_properties.json
-*	Otwórz plik .vscode/c_cpp_properties.json.
-*	W polu "compilerPath" wklej wcześniej skopiowaną ścieżkę, np.:
-Edytuj plik tasks.json
-*	Znajdź plik .vscode/tasks.json.
-*	Zaktualizuj ścieżki do projektu oraz do git bash we wskazanych miejscach.
-### 4. Uwagi
-*	Nie używaj polskich znaków w nazwach plików ani folderów.
-Może to powodować problemy podczas kompilacji.
-### 5. Sprawdzenie konfiguracji
-Otwórz terminal w Visual Studio Code.
-Wybierz Git Bash jako interpreter terminala.
-Wpisz komendę:
-```
-build
-```
-Jeśli wszystko zostało skonfigurowane poprawnie, projekt powinien się skompilować.
