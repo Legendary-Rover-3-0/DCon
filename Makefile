@@ -76,7 +76,7 @@ DCon/Drivers/Src/Can_Message.c \
 DCon/Drivers/Src/DLTuc.c \
 DCon/Drivers/Src/StepperMotor_Driver.c \
 DCon/Drivers/Src/VoltageMeasure.c \
-DCon/Application/Src/DCon_App.c \
+DCon/Application/Src/Bldc_App.c \
 Core/Src/adc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
