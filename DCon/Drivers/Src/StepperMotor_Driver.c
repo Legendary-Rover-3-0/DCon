@@ -101,29 +101,40 @@ void StepperMotor_setStepResolution(const StepperMotorResolution_Type resolution
     HAL_GPIO_WritePin(STEPPER_MOTOR_CONTROLLER_MS3_GPIO_OUT_GPIO_Port, STEPPER_MOTOR_CONTROLLER_MS3_GPIO_OUT_Pin, ms3);
 }
 
-void StepperMotor_setSpeedPercent(const uint8_t pwmPercent)
+/**
+ * @brief Generuje impulsy sterujące dla sterownika A4988.
+ * @details 
+ * Funkcja generuje impulsy wymagane przez sterownik A4988, gdzie każde 
+ * zbocze narastające sygnału STEP powoduje wykonanie jednego kroku silnika krokowego.
+ * Minimalne wymagane czasy impulsu:
+ * - Stan wysoki: 1 µs
+ * - Stan niski: 1 µs
+ *     1us      1us
+ *    ┌───┐    ┌───┐    ┌───┐    
+ *    │   │    │   │    │   │    
+ *   ─┘   └────┘   └────┘   └──  
+ *          1 µs     1 µs   (czas impulsów)
+ * @param[in] steps Liczba kroków do wykonania (zakres: 0–255).
+ */
+void StepperMotor_step(const uint8_t steps)
 {
-  uint32_t pwmValue = 0u;
-  uint64_t tmpPwmValue = 0u;
+  /* timer 80MHz, pcs: 1 cp: 99, impuls około 1.25us */
+    uint8_t pulse = 0u;
 
-  if (pwmPercent >= MAX_PWM_PERCENT)
-  {
-    pwmValue = MAX_PWM_VALUE;
-  }
-  else if (pwmPercent <= MIN_PWM_PERCENT)
-  {
-    pwmValue = 0u;
-  }
-  else
-  {
-    tmpPwmValue = ((uint64_t)pwmPercent * MAX_PWM_VALUE) / MAX_PWM_PERCENT;
-    pwmValue = (uint32_t)tmpPwmValue;
-  }
-  __HAL_TIM_SetCompare(&htim2, TIM_CHANNEL_3, pwmValue);
+    __HAL_TIM_DISABLE(&htim2);
+
+    if (steps > 0u)
+    {
+        pulse = steps - 1u;
+    }
+    __SET_IMPULSE_AMOUNT(&htim2, pulse);
+    __HAL_TIM_SET_COUNTER(&htim2, 0);
+    __HAL_TIM_CLEAR_FLAG(&htim2, TIM_FLAG_UPDATE);
+    __FORCE_REGISTERS_VALUE(&htim2);
+    __HAL_TIM_ENABLE(&htim2);
 }
 
 void StepperMotor_init(void)
 {
-    StepperMotor_setSpeedPercent(0u); /* Początkowe wypełnienie sygnału PWM 0%*/
-    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3); /* Start timera dla generacji PWM */
+  HAL_TIM_OnePulse_Start(&htim2, TIM_CHANNEL_3);
 }
