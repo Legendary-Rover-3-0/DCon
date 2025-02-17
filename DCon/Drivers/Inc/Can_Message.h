@@ -13,4 +13,6 @@ void Can_Message_sendBldcMotorParams(const uint8_t wheel, const uint16_t data1, 
 
 void Can_Message_sendIncrementalEncoderInfo(const uint8_t wheel, const uint16_t dataChannelA, const uint16_t dataChannelB);
 
+void Can_Message_sendBatteryVoltage(const uint8_t wheel, const uint16_t voltage);
+
 #endif /* CAN_MESSAGE_H */
