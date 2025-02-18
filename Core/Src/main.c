@@ -29,6 +29,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "Measure.h"
+#include "Can_Message.h"
+
 #ifdef DLT_ENABLE
     #include "DLTuc.h"
     #define DLT_DEBUG(...) LOGL(DL_INFO, __VA_ARGS__)
@@ -55,7 +58,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint16_t voltage=0u;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -117,12 +120,19 @@ int main(void)
   DLTuc_RegisterTransmitSerialDataFunction(DLTuc_SerialTxDataFunction);
   DLTuc_RegisterReceiveSerialDataFunction(DLTuc_SerialRxDataFunction);
   DLTuc_RegisterGetTimeStampMsCallback(DLTuc_TimeStamp);
+  Measure_init(&htim12,&hadc1,1000);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+Measure_getBatteryVoltage(AVARAGE_VALUE,&voltage);
+Can_Message_sendBatteryVoltage(0,voltage);
+HAL_Delay(1000);
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
