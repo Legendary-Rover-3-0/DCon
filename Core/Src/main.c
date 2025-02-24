@@ -29,8 +29,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "Measure.h"
-#include "Can_Message.h"
+#include "callbacks.h"
 
 #ifdef DLT_ENABLE
     #include "DLTuc.h"
@@ -58,7 +57,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t voltage=0u;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -69,8 +68,6 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart);
 void DLTuc_SerialTxDataFunction(uint8_t* logData, uint8_t Size);
 void DLTuc_SerialRxDataFunction(uint8_t* logData, uint16_t Size);
 uint32_t DLTuc_TimeStamp(void);
@@ -120,19 +117,12 @@ int main(void)
   DLTuc_RegisterTransmitSerialDataFunction(DLTuc_SerialTxDataFunction);
   DLTuc_RegisterReceiveSerialDataFunction(DLTuc_SerialRxDataFunction);
   DLTuc_RegisterGetTimeStampMsCallback(DLTuc_TimeStamp);
-  Measure_init(&htim12,&hadc1,1000);
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-Measure_getBatteryVoltage(AVARAGE_VALUE,&voltage);
-Can_Message_sendBatteryVoltage(0,voltage);
-HAL_Delay(1000);
-
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -188,15 +178,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
-{
-  DLTuc_RawDataReceiveDone(Size);
-}
-
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
-{
-  DLTuc_MessageTransmitDone();
-}
 
 void DLTuc_SerialTxDataFunction(uint8_t* logData, uint8_t Size)
 {

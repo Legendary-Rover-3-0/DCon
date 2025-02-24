@@ -45,6 +45,12 @@ Core/Src/usart.c \
 Core/Src/usb_otg.c \
 Core/Src/stm32f4xx_it.c \
 Core/Src/stm32f4xx_hal_msp.c \
+Core/Src/system_stm32f4xx.c \
+Core/Src/sysmem.c \
+Core/Src/syscalls.c \
+Core/Src/dma.c \
+Core/Src/adc.c \
+Core/Src/callbacks.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
@@ -66,21 +72,16 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c \
-Core/Src/system_stm32f4xx.c \
-Core/Src/sysmem.c \
-Core/Src/syscalls.c \
-Core/Src/dma.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
+Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c \
+DCon/Application/Src/Bldc_App.c \
 DCon/Drivers/Src/Bldc_Driver.c \
 DCon/Drivers/Src/Can_Driver.c \
 DCon/Drivers/Src/Can_Message.c \
 DCon/Drivers/Src/DLTuc.c \
 DCon/Drivers/Src/StepperMotor_Driver.c \
-DCon/Drivers/Src/Measure.c \
-DCon/Application/Src/Bldc_App.c \
-Core/Src/adc.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
-Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c
+DCon/Drivers/Src/Measure.c
 
 # ASM sources
 ASM_SOURCES =  \

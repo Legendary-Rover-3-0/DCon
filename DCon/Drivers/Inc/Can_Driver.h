@@ -2,8 +2,9 @@
 #define CAN_DRIVER_H
 
 #include "can.h"
-
-#define CAN_INSTANCE        ((CAN_HandleTypeDef*) &hcan1)
+#define CAN_INSTANCE    ((CAN_HandleTypeDef*)  &hcan1)  /* CAN */
+#define CAN_ACTIVE      ((uint8_t)  0u)
+#define CAN_STANDBY     ((uint8_t)  1u)
 
 /**
   * @brief Funcka inicjalizująca driver CAN
@@ -20,8 +21,14 @@ void Can_Driver_wakeup(void);
   */
 void Can_Driver_stateMenager(void);
 
-void HAL_CAN_SleepCallback(CAN_HandleTypeDef *hcan);
-void HAL_CAN_WakeUpFromRxMsgCallback(CAN_HandleTypeDef *hcan);
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan);
+/**
+  * @brief Ustawia wewnętrzną flage
+  */
+void Can_Driver_setCanFlag(const uint8_t flagStatus);
+
+/**
+  * @brief Pobiera ostatni czas RX
+  */
+void Can_Driver_setLastRxTime(void);
 
 #endif /* CAN_DRIVER_H */

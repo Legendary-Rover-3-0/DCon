@@ -36,8 +36,6 @@
 #endif
 
 #define CAN_WAKEUP_DELAY_MS ((uint32_t) 1u)
-#define CAN_ACTIVE          ((uint8_t)  0u)
-#define CAN_STANDBY         ((uint8_t)  1u)
 #define CAN_IDLE_TIMEOUT    ((uint32_t) 1000u)
 
 typedef enum
@@ -50,6 +48,16 @@ typedef enum
 static CanDriver_StateType state = CAN_STATE_ACTIVE; /* Zminna odpowiadająca za stan maszyny */
 static volatile uint8_t canFlag = 0u; /* Flaga ustawiana w przerwaniu HAL informująca o ruchu na magistrali */
 static volatile uint32_t lastRxTime = 0u;
+
+void Can_Driver_setCanFlag(const uint8_t flagStatus)
+{
+    canFlag = flagStatus;
+}
+
+void Can_Driver_setLastRxTime(void)
+{
+    lastRxTime = HAL_GetTick();
+}
 
 static void setStandbyMode(void)
 {
@@ -78,32 +86,6 @@ static CanDriver_StateType getState(void)
 static void canWakeUp(void)
 {
     HAL_CAN_WakeUp(CAN_INSTANCE);
-}
-
-void HAL_CAN_SleepCallback(CAN_HandleTypeDef *hcan)
-{
-    if (hcan == CAN_INSTANCE)
-    {
-        /* Callback od wykrycia braku ruchu na magistrali CAN, ustawinie flagi wymaganej do przejścia w standby */
-        canFlag = CAN_STANDBY;
-    }
-}
-
-void HAL_CAN_WakeUpFromRxMsgCallback(CAN_HandleTypeDef *hcan)
-{
-    if (hcan == CAN_INSTANCE)
-    {
-        /* Callback od wykrycia ruchu na magistrali CAN, ustawinie flagi wymaganej do przejścia w active */
-        canFlag = CAN_ACTIVE;
-    }
-}
-
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
-{
-    if (hcan == CAN_INSTANCE)
-    {
-        lastRxTime = HAL_GetTick(); /* Zapisz czas ostatniej odebranej ramki */
-    }
 }
 
 HAL_StatusTypeDef Can_Driver_init(void)

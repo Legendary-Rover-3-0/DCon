@@ -1,6 +1,7 @@
 #include "main.h"
 #include "can.h"
 #include "Can_Driver.h"
+#include "Can_Message.h"
 
 #ifdef DLT_ENABLE
     #include "DLTuc.h"
@@ -8,7 +9,24 @@
 #else
     #define DLT_DEBUG(...)
 #endif
-#include "Can_Message.h"
+
+#define RIGHT_FRONT (0u)
+#define LEFT_FRONT  (1u)
+#define RIGHT_REAR  (2u)
+#define LEFT_REAR   (3u)
+
+#define WHEEL       (LEFT_REAR)
+
+#ifndef WHEEL
+    #error Zdefiniuj odpowiednie ID WHEEL!
+#else
+    #if (WHEEL < RIGHT_FRONT)
+        #error Zdefiniuj odpowiednie ID WHEEL!
+    #endif
+    #if (WHEEL > LEFT_REAR)
+        #error Zdefiniuj odpowiednie ID WHEEL!
+    #endif
+#endif
 
 /* ID ramki dla parametrów silnika krokowego */
 #define ID_RIGHT_FRONT_STEPPERMOTOR  ((uint32_t) 100u)
@@ -34,9 +52,9 @@
 #define ID_RIGHT_REAR_BATTERY_VOLTAGE   ((uint32_t) 402u)
 #define ID_LEFT_REAR_BATTERY_VOLTAGE    ((uint32_t) 403u)
 
-
 #define DATA_LENGTH_8_BYTES          ((uint32_t) 8u)
 #define DATA_LENGTH_4_BYTES          ((uint32_t) 4u)
+#define DATA_LENGTH_5_BYTES          ((uint32_t) 5u)
 #define DATA_LENGTH_2_BYTES          ((uint32_t) 2u)
 #define AMOUT_OF_WHEELS              (4u)
 #define AMOUT_OF_PARMAS              (4u)
@@ -69,27 +87,23 @@ static uint32_t getMessageId(const uint8_t wheel, Objectparam_Type param)
     return retId;
 }
 
-void Can_Message_sendStepperMotorParams(const uint8_t wheel, const uint16_t data1, const uint16_t data2, const uint16_t data3, const uint16_t data4)
+void Can_Message_sendStepperMotorParams(const uint8_t direction, const uint8_t enable, const uint8_t ms1, const uint8_t ms2, const uint8_t ms3)
 {
+    uint32_t pTxMailbox = 0u;
     CAN_TxHeaderTypeDef header =
     {
-        .ExtId = 0u,
+        .StdId = getMessageId(WHEEL, STEPPER_MOTOR),
         .IDE = CAN_ID_STD,
         .RTR = CAN_RTR_DATA,
-        .DLC = DATA_LENGTH_8_BYTES,
+        .DLC = DATA_LENGTH_5_BYTES,
         .TransmitGlobalTime = DISABLE
     };
-    header.StdId = getMessageId(wheel, STEPPER_MOTOR);
-    uint8_t data[DATA_LENGTH_8_BYTES] = {0};
-    data[0] = (data1 >> 8);  
-    data[1] = (data1 & 0xFF);
-    data[2] = (data2 >> 8);  
-    data[3] = (data2 & 0xFF);
-    data[4] = (data3 >> 8);  
-    data[5] = (data3 & 0xFF);
-    data[6] = (data4 >> 8);  
-    data[7] = (data4 & 0xFF);
-    uint32_t pTxMailbox = 0u;
+    uint8_t data[DATA_LENGTH_5_BYTES] = {0};
+    data[0] = direction;  
+    data[1] = enable;  
+    data[2] = ms1;
+    data[3] = ms2;
+    data[4] = ms3;
 
     Can_Driver_wakeup();
 
@@ -99,18 +113,19 @@ void Can_Message_sendStepperMotorParams(const uint8_t wheel, const uint16_t data
     }
 }
 
-void Can_Message_sendBldcMotorParams(const uint8_t wheel, const uint16_t data1, const uint16_t data2, const uint16_t data3, const uint16_t data4)
+void Can_Message_sendBldcMotorParams(const uint16_t data1, const uint16_t data2, const uint16_t data3, const uint16_t data4)
 {
+    uint32_t pTxMailbox = 0u;
     CAN_TxHeaderTypeDef header =
     {
-        .ExtId = 0u,
+        .StdId = getMessageId(WHEEL, BLDC),
         .IDE = CAN_ID_STD,
         .RTR = CAN_RTR_DATA,
         .DLC = DATA_LENGTH_8_BYTES,
         .TransmitGlobalTime = DISABLE
     };
-    header.StdId = getMessageId(wheel, BLDC);
     uint8_t data[DATA_LENGTH_8_BYTES] = {0};
+
     data[0] = (data1 >> 8);  
     data[1] = (data1 & 0xFF);
     data[2] = (data2 >> 8);  
@@ -119,7 +134,6 @@ void Can_Message_sendBldcMotorParams(const uint8_t wheel, const uint16_t data1, 
     data[5] = (data3 & 0xFF);
     data[6] = (data4 >> 8);  
     data[7] = (data4 & 0xFF);
-    uint32_t pTxMailbox = 0u;
 
     Can_Driver_wakeup();
 
@@ -129,23 +143,23 @@ void Can_Message_sendBldcMotorParams(const uint8_t wheel, const uint16_t data1, 
     }
 }
 
-void Can_Message_sendIncrementalEncoderInfo(const uint8_t wheel, const uint16_t dataChannelA, const uint16_t dataChannelB)
+void Can_Message_sendIncrementalEncoderInfo(const uint16_t dataChannelA, const uint16_t dataChannelB)
 {
+    uint32_t pTxMailbox = 0u;
     CAN_TxHeaderTypeDef header =
     {
-        .ExtId = 0u,
+        .StdId = getMessageId(WHEEL, INC_ENCODER),
         .IDE = CAN_ID_STD,
         .RTR = CAN_RTR_DATA,
         .DLC = DATA_LENGTH_4_BYTES,
         .TransmitGlobalTime = DISABLE
     };
-    header.StdId = getMessageId(wheel, INC_ENCODER);
     uint8_t data[DATA_LENGTH_4_BYTES] = {0};
+
     data[0] = (dataChannelA >> 8);  
     data[1] = (dataChannelA & 0xFF);
     data[2] = (dataChannelB >> 8);  
     data[3] = (dataChannelB & 0xFF);
-    uint32_t pTxMailbox = 0u;
 
     Can_Driver_wakeup();
 
@@ -155,21 +169,21 @@ void Can_Message_sendIncrementalEncoderInfo(const uint8_t wheel, const uint16_t 
     }
 }
 
-void Can_Message_sendBatteryVoltage(const uint8_t wheel, const uint16_t voltage)
+void Can_Message_sendBatteryVoltage(const uint16_t voltage)
 {
+    uint32_t pTxMailbox = 0u;
     CAN_TxHeaderTypeDef header =
     {
-        .ExtId = 0u,
+        .StdId = getMessageId(WHEEL, BATTERY_VOLTAGE),
         .IDE = CAN_ID_STD,
         .RTR = CAN_RTR_DATA,
         .DLC = DATA_LENGTH_2_BYTES,
         .TransmitGlobalTime = DISABLE 
     };
-    header.StdId = getMessageId(wheel, BATTERY_VOLTAGE);
     uint8_t data[DATA_LENGTH_2_BYTES] = {0};
+    
     data[0] = (voltage >> 8);  
     data[1] = (voltage & 0xFF);
-    uint32_t pTxMailbox = 0u;
 
     Can_Driver_wakeup();
 
