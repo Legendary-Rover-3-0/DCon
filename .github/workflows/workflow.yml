@@ -8,7 +8,7 @@ on:
 
 jobs:
     job_1:
-        name: Build on ARM
+        name: Build on Ubuntu
         runs-on: ubuntu-latest
         steps:
             # Pobranie repozytorium
@@ -34,7 +34,7 @@ jobs:
               run: make all
 
     job_2:
-        name: Build on ARM
+        name: Build on Windows
         runs-on: windows-latest
         needs: job_1
         steps:
