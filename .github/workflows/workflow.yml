@@ -3,6 +3,7 @@ on:
     workflow_dispatch:
     pull_request:
         branches: [develop]
+
 jobs:
     job_1:
         name: Build on ARM
@@ -12,30 +13,24 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
-            - name: Find Makefile Targets
-              id: makefile-targets
-              uses: meihei3/makefile-build-target-finder@main
-              with:
-                makefile: 'Makefile'
-                dependencies: 'all' 
-      
-            - name: Build targets
-              run: make ${{ steps.makefile-targets.outputs.targets }}
-
-            # Budowanie
-            - name: arm-none-eabi-gcc
+            # Instalacja toolchaina ARM
+            - name: Install ARM GCC
               uses: ryanwinter/arm-none-eabi-gcc@master
               with:
                 release: '10.3-2021.10'
-            
-            - name: Clean
-              run: |
-                make clean
 
+            # Sprawdzenie wersji kompilatora (aby upewnić się, że jest w PATH)
+            - name: Check ARM GCC version
+              run: arm-none-eabi-gcc --version
+
+            # Czyszczenie starej kompilacji
+            - name: Clean
+              run: make clean
+
+            # Budowanie całego projektu
             - name: Build
-              run: |
-                mkdir build
-                make all
+              run: make all
+
     job_2:
         name: Job_2
         runs-on: windows-latest
