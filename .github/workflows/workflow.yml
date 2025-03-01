@@ -5,11 +5,37 @@ on:
         branches: [develop]
 jobs:
     job_1:
-        name: Job_1
+        name: Build on ARM
         runs-on: ubuntu-latest
         steps:
-            - name: Step1
-              run: echo "Run Job1 step1"
+            # Pobranie repozytorium
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Find Makefile Targets
+              id: makefile-targets
+              uses: meihei3/makefile-build-target-finder@main
+              with:
+                makefile: 'Makefile'
+                dependencies: 'all' 
+      
+            - name: Build targets
+              run: make ${{ steps.makefile-targets.outputs.targets }}
+
+            # Budowanie
+            - name: arm-none-eabi-gcc
+              uses: ryanwinter/arm-none-eabi-gcc@master
+              with:
+                release: '10.3-2021.10'
+            
+            - name: Clean
+              run: |
+                make clean
+
+            - name: Build
+              run: |
+                mkdir build
+                make all
     job_2:
         name: Job_2
         runs-on: windows-latest
