@@ -1,17 +1,12 @@
 name: workflow
 on:
     workflow_dispatch:
-    # Uruchomienie w przypadku pull requesta 
     pull_request:
         branches: [develop]
-    
-    # Uruchomienie w przypadku pusha
     push:
         branches: [develop]
-     
-    # Cykliczne uruchomienie każdego dnia o północy
     schedule:
-          - cron: "0 0 * * *"
+        - cron: "0 0 * * *"
 
 jobs:
     job_1:
@@ -49,13 +44,12 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
-            # Instalacja toolchaina ARM
-            - name: Install ARM GCC
-              uses: ryanwinter/arm-none-eabi-gcc@master
-              with:
-                release: '10.3-2021.10'
+            - name: Download and Install ARM GCC 12.3 on Windows
+              run: |
+                Invoke-WebRequest -Uri "https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v12.3.1-1/xpack-arm-none-eabi-gcc-12.3.1-1-win32-x64.zip" -OutFile "gcc-arm.zip"
+                Expand-Archive -Path "gcc-arm.zip" -DestinationPath "$env:GITHUB_WORKSPACE\gcc-arm"
+                echo "$env:GITHUB_WORKSPACE\gcc-arm\xpack-arm-none-eabi-gcc-12.3.1-1\bin" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
 
-            # Sprawdzenie wersji kompilatora (aby upewnić się, że jest w PATH)
             - name: Check ARM GCC version
               run: arm-none-eabi-gcc --version
 
