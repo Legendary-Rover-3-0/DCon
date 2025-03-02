@@ -1,10 +1,17 @@
 name: workflow
 on:
     workflow_dispatch:
+    # Uruchomienie w przypadku pull requesta 
     pull_request:
         branches: [develop]
+    
+    # Uruchomienie w przypadku pusha
     push:
         branches: [develop]
+     
+    # Cykliczne uruchomienie każdego dnia o północy
+    schedule:
+          - cron: "0 0 * * *"
 
 jobs:
     job_1:
@@ -59,3 +66,10 @@ jobs:
             # Budowanie całego projektu
             - name: Build
               run: make all
+            
+            # Zapisywanie pliku wynikowego .elf jako artefakt
+            - name: Build Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: firmware
+                path: build/*.elf
