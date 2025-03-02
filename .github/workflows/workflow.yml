@@ -51,12 +51,20 @@ jobs:
                 $asset = $release.assets | Where-Object { $_.name -match "win32-x64.zip$" }
                 if ($asset -eq $null) { Write-Error "No matching asset found!" }
                 echo "gcc_url=$($asset.browser_download_url)" >> $env:GITHUB_ENV
+              shell: pwsh
 
             - name: Download and Install ARM GCC 12.3 on Windows
               run: |
                 Invoke-WebRequest -Uri "${{ env.gcc_url }}" -OutFile "gcc-arm.zip"
                 Expand-Archive -Path "gcc-arm.zip" -DestinationPath "$env:GITHUB_WORKSPACE\gcc-arm"
                 echo "$env:GITHUB_WORKSPACE\gcc-arm\xpack-arm-none-eabi-gcc-12.3.1-1\bin" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+              shell: pwsh
+
+            - name: Check ARM GCC version
+              run: |
+                $env:Path += ";$env:GITHUB_WORKSPACE\gcc-arm\xpack-arm-none-eabi-gcc-12.3.1-1\bin"
+                arm-none-eabi-gcc --version
+              shell: pwsh
 
             - name: Check ARM GCC version
               run: arm-none-eabi-gcc --version
