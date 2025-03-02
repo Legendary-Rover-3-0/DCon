@@ -67,9 +67,13 @@ jobs:
             - name: Build
               run: make all
             
-            # Zapisywanie pliku wynikowego .elf jako artefakt
+            # Zapisywanie wyników kompilacji jako artefakt
             - name: Build Artifact
               uses: actions/upload-artifact@v4
               with:
-                name: firmware
-                path: build/*.elf
+                name: Build
+                path: |
+                  build/*.hex
+                  build/*.elf
+                  build/*.bin
+                  build/*.map
