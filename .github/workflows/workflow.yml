@@ -50,10 +50,10 @@ jobs:
               uses: actions/checkout@v4
 
             # Instalacja toolchaina ARM
-            - name: Install ARM GCC
-              uses: ryanwinter/arm-none-eabi-gcc@master
+            - name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
+              uses: carlosperate/arm-none-eabi-gcc-action@v1
               with:
-                release: '10.3-2021.10'
+                release: '12.3.Rel1'
 
             # Sprawdzenie wersji kompilatora (aby upewnić się, że jest w PATH)
             - name: Check ARM GCC version
@@ -77,3 +77,6 @@ jobs:
                   build/*.elf
                   build/*.bin
                   build/*.map
+                if-no-files-found: warn
+                retention-days: 1
+                overwrite: true
