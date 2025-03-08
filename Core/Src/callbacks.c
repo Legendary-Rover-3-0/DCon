@@ -50,3 +50,21 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
         Can_Driver_setLastRxTime();
     }
 }
+
+// /* ### USB ### */
+// void CDC_ReveiveCallback(uint8_t *Buffer, uint8_t Length)
+// {
+//     /* Odbiór danych z USB */
+//     UNUSED(Buffer);
+//     UNUSED
+//     (Length);
+// }
+
+// void CDC_TransmitCallback(uint8_t *Buffer, uint8_t Length)
+// {
+//     /* Wysyłanie danych przez USB */
+//     UNUSED(Buffer);
+//     UNUSED
+//     (Length);
+// }
+
