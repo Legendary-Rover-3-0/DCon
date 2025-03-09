@@ -4,6 +4,9 @@
 #include "DLTuc.h"
 #include "Can_Driver.h"
 #include "callbacks.h"
+#include "RingBuffer.h"
+#include "parse.h"
+
 
 #define UART_INSTANCE   ((UART_HandleTypeDef*) &huart1) /* UART do DLT */
 
@@ -51,14 +54,25 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
     }
 }
 
-// /* ### USB ### */
-// void CDC_ReveiveCallback(uint8_t *Buffer, uint8_t Length)
-// {
-//     /* Odbiór danych z USB */
-//     UNUSED(Buffer);
-//     UNUSED
-//     (Length);
-// }
+/* ### USB ### */
+void CDC_ReveiveCallback(uint8_t *Buffer, uint8_t Length)
+{
+    if(Length > 0)
+    {
+        //CDC_Transmit_FS(Buffer, Length); // Echo danych
+
+        for(uint8_t i = 0; i < Length; i++)
+        {
+            if(RB_OK == RB_Write(&ReceiveBuffer, Buffer[i]))
+            {
+                if(Buffer[i] == ENDLINE)
+                {
+                    ReceivedLines++;
+                }
+            }
+        }
+    }
+}
 
 // void CDC_TransmitCallback(uint8_t *Buffer, uint8_t Length)
 // {

@@ -9,7 +9,7 @@
             "args": ["-j11"],
             "options": {
                 /* Podmienić na swoją ścieżkę gdzie znajuduje się projekt! */
-                "cwd": "D:/STM32_Project/Drive_Control",
+                "cwd": "C:/DCon_kod/DCon", //"D:/STM32_Project/Drive_Control",
                 "shell": {
                     /* Podmienić na swoją ścieżkę gdzie znajuduje się plik .exe konsoli bash! */
                     "executable": "C:/Program Files/Git/bin/bash.exe",
@@ -26,7 +26,7 @@
             "args": ["clean"],
             "options": {
                 /* Podmienić na swoją ścieżkę gdzie znajuduje się projekt! */
-                "cwd": "D:/STM32_Project/Drive_Control",
+                "cwd": "C:/DCon_kod/DCon", //"D:/STM32_Project/Drive_Control",
                 "shell": {
                     /* Podmienić na swoją ścieżkę gdzie znajuduje się plik .exe konsoli bash! */
                     "executable": "C:/Program Files/Git/bin/bash.exe",

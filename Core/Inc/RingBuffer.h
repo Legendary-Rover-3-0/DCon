@@ -25,6 +25,10 @@ typedef struct
 	uint8_t Buffer[RING_BUFFER_SIZE]; // Array to store data
 } RingBuffer_t;
 
+RingBuffer_t ReceiveBuffer;
+uint8_t ReceivedLines;
+uint8_t ReceivedData[32]; // A buffer for parsing
+
 //Functions
 // Write
 RB_Status RB_Write(RingBuffer_t *Buf, uint8_t Value);

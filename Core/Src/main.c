@@ -30,6 +30,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "callbacks.h"
+#include "RingBuffer.h"
+#include "parse.h"
 
 #ifdef DLT_ENABLE
     #include "DLTuc.h"
@@ -123,6 +125,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+    // Do parser work
+    if(ReceivedLines > 0)
+    {
+      // Take one line from the Ring Buffer to work-buffer
+      Parser_TakeLine(&ReceiveBuffer, ReceivedData);
+      // Run the parser with work-buffer
+      Parser_Parse(ReceivedData);
+      ReceivedLines--;
+    }
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
