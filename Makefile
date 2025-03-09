@@ -50,6 +50,8 @@ Core/Src/syscalls.c \
 Core/Src/dma.c \
 Core/Src/adc.c \
 Core/Src/callbacks.c \
+Core/Src/RingBuffer.c \
+Core/Src/parse.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_can.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
@@ -88,7 +90,7 @@ USB_DEVICE/Target/usbd_conf.c \
 Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c \
 Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c \
 Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c \
-Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
+Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c 
 
 # ASM sources
 ASM_SOURCES =  \
