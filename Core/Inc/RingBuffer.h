@@ -25,9 +25,9 @@ typedef struct
 	uint8_t Buffer[RING_BUFFER_SIZE]; // Array to store data
 } RingBuffer_t;
 
-RingBuffer_t ReceiveBuffer;
-uint8_t ReceivedLines;
-uint8_t ReceivedData[32]; // A buffer for parsing
+extern RingBuffer_t ReceiveBuffer;
+extern uint8_t ReceivedLines;
+extern uint8_t ReceivedData[32]; // A buffer for parsing
 
 //Functions
 // Write

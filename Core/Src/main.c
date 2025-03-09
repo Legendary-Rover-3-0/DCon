@@ -59,7 +59,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+// extern RingBuffer_t ReceiveBuffer;
+// extern uint8_t ReceivedLines;
+// uint8_t ReceivedData[32]; // A buffer for parsing
+// uint8_t UsbBuffer[64];
+// uint8_t UsbBufferLength;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -135,7 +139,7 @@ int main(void)
       Parser_Parse(ReceivedData);
       ReceivedLines--;
     }
-    
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

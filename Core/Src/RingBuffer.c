@@ -14,6 +14,11 @@
  */
 #include "main.h"
 #include "RingBuffer.h"
+//#include "parse.h"
+
+RingBuffer_t ReceiveBuffer;
+uint8_t ReceivedLines;
+uint8_t ReceivedData[32]; // A buffer for parsing
 
 //
 // Read from Ring Buffer
