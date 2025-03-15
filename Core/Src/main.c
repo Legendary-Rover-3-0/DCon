@@ -136,7 +136,8 @@ int main(void)
       // Take one line from the Ring Buffer to work-buffer
       Parser_TakeLine(&ReceiveBuffer, ReceivedData);
       // Run the parser with work-buffer
-      Parser_Parse(ReceivedData);
+      // Parser_Parse(ReceivedData);
+      Parser_StepperMotorCommand(ReceivedData);
       ReceivedLines--;
     }
 

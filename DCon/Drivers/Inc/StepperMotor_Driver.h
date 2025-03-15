@@ -46,10 +46,21 @@ void StepperMotor_switchDirection(const StepperMotorDirection_Type direction);
 void StepperMotor_setStepResolution(const StepperMotorResolution_Type resolution);
 
 /**
-  * @brief Funkcja ustawiająca procent wypełnienia sygnału PWM dla sterownika silnika krokowego
-  * @param pwmPercent    procent wypełnienia w zakresie od 0 do 100% z krokiem co 1%, funkcja mapuje % w zakresie od 0 do UINT32_MAX
-  */
-void StepperMotor_setSpeedPercent(const uint8_t pwmPercent);
+ * @brief Generuje impulsy sterujące dla sterownika A4988.
+ * @details 
+ * Funkcja generuje impulsy wymagane przez sterownik A4988, gdzie każde 
+ * zbocze narastające sygnału STEP powoduje wykonanie jednego kroku silnika krokowego.
+ * Minimalne wymagane czasy impulsu:
+ * - Stan wysoki: 1 µs
+ * - Stan niski: 1 µs
+ *     1us      1us
+ *    ┌───┐    ┌───┐    ┌───┐    
+ *    │   │    │   │    │   │    
+ *   ─┘   └────┘   └────┘   └──  
+ *          1 µs     1 µs   (czas impulsów)
+ * @param[in] steps Liczba kroków do wykonania (zakres: 0–255).
+ */
+void StepperMotor_step(const uint8_t steps);
 
 /**
   * @brief Funkcja inicjalizująca timer generujący PWM, domyślnie wartość wypełnienia jest równa 0%

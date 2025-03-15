@@ -5,12 +5,15 @@
  *      Author: jakub
  */
 
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "main.h"
 #include "parse.h"
 #include "RingBuffer.h"
 #include "string.h"
-#include "stdio.h"
-#include "stdlib.h"
+#include "StepperMotor_Driver.h"
 
 extern char rx_buffer[100];
 
@@ -84,3 +87,88 @@ void Parser_Parse(uint8_t *DataToParse)
 //	}
 }
 
+/**
+ * @brief   Parsuje komendy sterujące silnikiem krokowym.
+ * @param   pStepperCommand Wskaźnik na string z komendą (np. "STEPPER=EN.1").
+ * @return  HAL_OK jeśli komenda została przetworzona poprawnie, HAL_ERROR w przypadku błędu.
+ *
+ * Dozwolone parametry:
+ * - `EN.x`   - Włącza (`x=1`) lub wyłącza (`x=0`) silnik.
+ * - `DR.x`   - Kierunek (`x=0` - do przodu, `x=1` - do tyłu).
+ * - `RS.x`   - Rozdzielczość kroku (`x=0` - pełny, `1` - 1/2, `2` - 1/4, `3` - 1/8, `4` - 1/16).
+ * - `ST.x`   - Wykonuje `x` kroków, max 254 kroki.
+ * - Przykładowa komenda: STEPPER=EN.1
+ */
+HAL_StatusTypeDef Parser_StepperMotorCommand(uint8_t *pStepperCommand)
+{
+    HAL_StatusTypeDef retStatus = HAL_OK;
+
+	int value = 0;
+	StepperMotorEnable_Type enable = STEPPER_MOTOR_DISABLE;
+	StepperMotorDirection_Type direction = STEPPER_MOTOR_FORWARD;
+	StepperMotorResolution_Type resolution = STEP_FULL;
+
+    char *pCommand = NULL;
+    char *pParam = NULL;
+    char *pValue = NULL;
+
+    if (pStepperCommand == NULL) 
+    {
+        return HAL_ERROR;
+    }
+
+    pCommand = strtok((char*)pStepperCommand, "=");
+    pParam = strtok(NULL, ".");
+    pValue = strtok(NULL, ".");
+
+    if (!pCommand || !pParam || !pValue)
+    {
+        retStatus = HAL_ERROR;
+    }
+
+    for (char *p = pValue; p && *p; ++p)
+    {
+        if (!isdigit((unsigned char)*p))
+        {
+            retStatus = HAL_ERROR;
+        }
+    }
+
+    if (retStatus != HAL_ERROR)
+    {
+        value = atoi(pValue);
+
+        if (strcmp("EN", pParam) == 0) // ENABLE
+        {
+            enable = (value == 1) ? STEPPER_MOTOR_ENABLE : STEPPER_MOTOR_DISABLE;
+            StepperMotor_switchEnable(enable);
+        }
+        else if (strcmp("DR", pParam) == 0) // DIRECTION
+        {
+            direction = (value == 1) ? STEPPER_MOTOR_BACKWARD : STEPPER_MOTOR_FORWARD;
+            StepperMotor_switchDirection(direction);
+        }
+        else if (strcmp("RS", pParam) == 0) // RESOLUTION
+        {
+            switch (value)
+            {
+                case 1: resolution = STEP_HALF; break;
+                case 2: resolution = STEP_QUARTER; break;
+                case 3: resolution = STEP_EIGHTH; break;
+                case 4: resolution = STEP_SIXTEENTH; break;
+                default: resolution = STEP_FULL; break;
+            }
+            StepperMotor_setStepResolution(resolution);
+        }
+        else if (strcmp("ST", pParam) == 0) // STEP
+        {
+            StepperMotor_step((uint8_t)value);
+        }
+        else
+        {
+            retStatus = HAL_ERROR;
+        }
+    }
+
+    return retStatus;
+}
