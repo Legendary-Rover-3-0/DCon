@@ -32,6 +32,7 @@
 #include "callbacks.h"
 #include "RingBuffer.h"
 #include "parse.h"
+#include "AbsoluteEncoder_Driver.h"
 
 #ifdef DLT_ENABLE
     #include "DLTuc.h"
