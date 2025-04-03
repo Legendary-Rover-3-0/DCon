@@ -60,6 +60,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+volatile float angle = 0.0f;
 // extern RingBuffer_t ReceiveBuffer;
 // extern uint8_t ReceivedLines;
 // uint8_t ReceivedData[32]; // A buffer for parsing
@@ -120,10 +121,12 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM8_Init();
   MX_USB_DEVICE_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   DLTuc_RegisterTransmitSerialDataFunction(DLTuc_SerialTxDataFunction);
   DLTuc_RegisterReceiveSerialDataFunction(DLTuc_SerialRxDataFunction);
   DLTuc_RegisterGetTimeStampMsCallback(DLTuc_TimeStamp);
+  HAL_TIM_Base_Start_IT(&htim4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -212,6 +215,15 @@ uint32_t DLTuc_TimeStamp(void)
 {
   return HAL_GetTick();
 }
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim->Instance == TIM4)
+  {
+  angle = ReadAngleFromEncoder();
+  }
+}
+
 
 /* USER CODE END 4 */
 

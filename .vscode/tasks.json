@@ -9,10 +9,10 @@
             "args": ["-j11"],
             "options": {
                 /* Podmienić na swoją ścieżkę gdzie znajuduje się projekt! */
-                "cwd": "C:/DCon_kod/DCon", //"D:/STM32_Project/Drive_Control",
+                "cwd": "D:/Projekt/DriveControl/DCon",//"C:/DCon_kod/DCon",
                 "shell": {
                     /* Podmienić na swoją ścieżkę gdzie znajuduje się plik .exe konsoli bash! */
-                    "executable": "C:/Program Files/Git/bin/bash.exe",
+                    "executable": "C:/Srodowisko/Git/bin/bash.exe", //"C:/Program Files/Git/bin/bash.exe",
                     "args": ["-c"]
                 }
             },
@@ -26,10 +26,10 @@
             "args": ["clean"],
             "options": {
                 /* Podmienić na swoją ścieżkę gdzie znajuduje się projekt! */
-                "cwd": "C:/DCon_kod/DCon", //"D:/STM32_Project/Drive_Control",
+                "cwd": "D:/Projekt/DriveControl/DCon",//"C:/DCon_kod/DCon",
                 "shell": {
                     /* Podmienić na swoją ścieżkę gdzie znajuduje się plik .exe konsoli bash! */
-                    "executable": "C:/Program Files/Git/bin/bash.exe",
+                    "executable": "C:/Srodowisko/Git/bin/bash.exe", //"C:/Program Files/Git/bin/bash.exe",
                     "args": ["-c"]
                 }
             },
@@ -42,7 +42,7 @@
             "command": "openocd",
             "args": [
                 "-f", "interface/stlink.cfg",
-                "-f", "target/stm32l4x.cfg",
+                "-f", "target/stm32f4x.cfg",
                 "-c", "program ./build/Drive_Control.elf verify reset exit"
             ],
             "options": {

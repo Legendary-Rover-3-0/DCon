@@ -14,7 +14,7 @@
                 "DSTM32F446xx"
             ],
             /* Podmienić na swoją ścieżkę do kompilatora! */
-            "compilerPath": "C:\\Program Files (x86)\\STM_VStudio_path\\GNU Arm Embedded Toolchain\\10 2021.10\\bin\\arm-none-eabi-gcc.exe", 
+            "compilerPath": "C:\\Srodowisko\\arm_gnu_toolchain\\bin\\arm-none-eabi-gcc.exe", //"C:\\Program Files (x86)\\STM_VStudio_path\\GNU Arm Embedded Toolchain\\10 2021.10\\bin\\arm-none-eabi-gcc.exe", 
             "compilerArgs": [
                 "-mcpu=cortex-m4",
                 "-mthumb"
